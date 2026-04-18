@@ -1,0 +1,900 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Trama Terra – Design Mineral Autoral</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Jost:wght@200;300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- ─── TOPBAR ─── -->
+    <div class="topbar">
+      <span class="topbar-dot"></span>
+      <span>Loja Aberta</span>
+      <span class="topbar-sep">·</span>
+      <span>Envio para todo o Brasil</span>
+      <span class="topbar-sep">·</span>
+      <span>Coleções Limitadas</span>
+    </div>
+
+    <!-- ─── HEADER / HERO ─── -->
+    <header class="site-header" id="topo">
+      <nav class="nav">
+        <a href="#topo" class="nav-logo">
+          <span class="logo-sym">◈</span>
+          <span class="logo-name">Trama Terra</span>
+        </a>
+        <div class="nav-links">
+          <a href="#manifesto" class="nav-link">Manifesto</a>
+          <a href="#colecao" class="nav-link">Coleção</a>
+          <a href="#contato" class="nav-link">Contato</a>
+        </div>
+      </nav>
+
+      <div class="hero">
+        <div class="hero-eyebrow">Design Mineral Autoral · Brasil</div>
+        <h1 class="hero-title">
+          <em>Trama</em>
+          <span>Terra</span>
+        </h1>
+        <p class="hero-sub">Objetos que carregam presença.</p>
+        <div class="hero-ctas">
+          <a href="#colecao" class="btn-primary">Ver Coleção</a>
+          <a href="#manifesto" class="btn-ghost">Nossa História</a>
+        </div>
+      </div>
+
+      <div class="hero-scroll">
+        <span class="scroll-line"></span>
+        <span class="scroll-label">Rolar</span>
+      </div>
+    </header>
+
+    <!-- ─── MANIFESTO ─── -->
+    <section class="manifesto" id="manifesto">
+      <div class="manifesto-inner">
+        <div class="section-label">Manifesto</div>
+        <div class="manifesto-grid">
+          <div class="manifesto-left fade-up">
+            <h2 class="manifesto-title">
+              Curadoria cuidadosa<br />
+              <em>da matéria-prima.</em>
+            </h2>
+          </div>
+          <div class="manifesto-right">
+            <p class="fade-up">
+              A Trama Terra é uma marca brasileira de design mineral
+              especializada em objetos autorais produzidos em pedra natural,
+              fios e sementes naturais.
+            </p>
+            <p class="fade-up">
+              Trabalhamos com coleções limitadas, focadas em luxo silencioso e
+              elegância atemporal.
+            </p>
+            <p class="fade-up">
+              Não produzimos em escala industrial. Nosso foco é exclusividade e
+              identidade — pois acreditamos que objetos carregam presença.
+            </p>
+            <div class="pillars">
+              <div class="pillar fade-up">
+                <div class="pillar-sym">◆</div>
+                <div class="pillar-name">Pedra Natural</div>
+              </div>
+              <div class="pillar fade-up">
+                <div class="pillar-sym">◈</div>
+                <div class="pillar-name">Fios Selecionados</div>
+              </div>
+              <div class="pillar fade-up">
+                <div class="pillar-sym">◇</div>
+                <div class="pillar-name">Sementes Naturais</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── DIVIDER ─── -->
+    <div class="divider"><span>◈</span></div>
+
+    <!-- ─── COLEÇÃO ─── -->
+    <section class="collection" id="colecao">
+      <div class="collection-inner">
+        <div class="section-label">Coleção</div>
+        <nav class="cat-tabs" id="cat-tabs">
+          <button class="cat-tab active" data-cat="esculturas">
+            Esculturas de Parede
+          </button>
+          <button class="cat-tab" data-cat="cupulas">Esculturas Cúpula</button>
+          <button class="cat-tab" data-cat="cocares">Cocares Têxteis</button>
+        </nav>
+        <div class="products-grid" id="products-grid"></div>
+      </div>
+    </section>
+
+    <!-- ─── FOOTER ─── -->
+    <footer class="site-footer" id="contato">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <span class="footer-sym">◈</span>
+          <div class="footer-name">Trama Terra</div>
+          <p class="footer-tag">Design Mineral Autoral · Brasil</p>
+        </div>
+        <button class="footer-orders-btn" onclick="openHistoryModal()">
+          Meus Pedidos
+        </button>
+        <div class="footer-copy">
+          © 2025 Trama Terra · Coleções Limitadas · Feito com cuidado
+        </div>
+      </div>
+    </footer>
+
+    <!-- ─── CART FAB ─── -->
+    <button class="cart-fab" id="cart-btn">
+      <svg
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.5"
+      >
+        <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
+        <line x1="3" y1="6" x2="21" y2="6" />
+        <path d="M16 10a4 4 0 0 1-8 0" />
+      </svg>
+      <span>Carrinho</span>
+      <span class="cart-badge" id="cart-count">0</span>
+    </button>
+
+    <!-- ══ MODAL: PRODUTO ══ -->
+    <div class="modal-overlay" id="product-modal">
+      <div class="modal-sheet product-sheet">
+        <button class="modal-close" id="product-modal-close">
+          <svg
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+          >
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
+        </button>
+        <div class="pm-gallery">
+          <div class="pm-main-wrap" id="pm-main-wrap">
+            <img class="pm-main-img" id="pm-main-img" src="" alt="" />
+            <button class="pm-arrow pm-arrow-left" id="pm-prev">‹</button>
+            <button class="pm-arrow pm-arrow-right" id="pm-next">›</button>
+            <div class="pm-img-counter" id="pm-img-counter">1 / 1</div>
+          </div>
+          <div class="pm-thumbs" id="pm-thumbs"></div>
+        </div>
+        <div class="pm-info">
+          <div class="pm-cat" id="pm-category"></div>
+          <h2 class="pm-name" id="pm-name"></h2>
+          <p class="pm-desc" id="pm-desc"></p>
+          <div class="pm-price" id="pm-price"></div>
+          <div class="pm-qty-row">
+            <button class="qty-btn" id="pm-dec">−</button>
+            <span class="qty-num" id="pm-qty">1</span>
+            <button class="qty-btn" id="pm-inc">+</button>
+          </div>
+          <textarea
+            class="pm-obs"
+            id="pm-obs"
+            placeholder="Observações: preferências, medidas, urgência..."
+          ></textarea>
+          <button class="pm-add-btn" id="pm-add-btn">
+            Adicionar ao Carrinho
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ MODAL: CARRINHO ══ -->
+    <div class="modal-overlay" id="cart-modal">
+      <div class="modal-sheet">
+        <div class="modal-header">
+          <h2 class="modal-title">
+            Carrinho
+            <span class="modal-count" id="cart-count-modal">0 itens</span>
+          </h2>
+          <button class="modal-close" id="close-modal-btn">
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+            >
+              <line x1="18" y1="6" x2="6" y2="18" />
+              <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+          </button>
+        </div>
+        <div class="cart-body">
+          <div id="cart-items"></div>
+          <div class="cart-total-row">
+            <span>Subtotal</span>
+            <span id="cart-total">R$ 0,00</span>
+          </div>
+
+          <div class="form-section">
+            <div class="form-section-title">Calcular Frete</div>
+            <div class="frete-row">
+              <input
+                type="text"
+                class="form-input"
+                id="frete-cep-input"
+                placeholder="CEP (77000-000)"
+                oninput="formatCEPFrete(this)"
+                maxlength="9"
+              />
+              <button class="btn-calc-frete" onclick="calcularFrete()">
+                Calcular
+              </button>
+            </div>
+            <div
+              id="frete-result"
+              class="frete-result"
+              style="display: none"
+            ></div>
+          </div>
+
+          <div class="form-section">
+            <div class="form-section-title">Seus Dados</div>
+            <input
+              type="text"
+              class="form-input"
+              id="customer-name"
+              placeholder="Nome completo"
+            />
+            <p class="form-warn" id="customer-name-warn">
+              Por favor, informe seu nome.
+            </p>
+            <div class="form-row">
+              <input
+                type="tel"
+                class="form-input"
+                id="customer-phone"
+                placeholder="WhatsApp / Celular"
+              />
+              <input
+                type="email"
+                class="form-input"
+                id="customer-email"
+                placeholder="E-mail (opcional)"
+              />
+            </div>
+            <p class="form-warn" id="customer-phone-warn">
+              Por favor, informe seu WhatsApp.
+            </p>
+          </div>
+
+          <div class="form-section">
+            <div class="form-section-title">Entrega</div>
+            <div class="ship-opts">
+              <div
+                class="ship-opt selected"
+                id="ship-correios"
+                onclick="selectShipping('correios')"
+              >
+                📦 Correios
+              </div>
+              <div
+                class="ship-opt"
+                id="ship-motoboy"
+                onclick="selectShipping('motoboy')"
+                style="display:none"
+              >
+                🛵 Motoboy
+              </div>
+              <div
+                class="ship-opt"
+                id="ship-retirada"
+                onclick="selectShipping('retirada')"
+              >
+                🏡 Retirada
+              </div>
+            </div>
+            <div id="address-block">
+              <input
+                type="text"
+                class="form-input"
+                id="cep-input"
+                placeholder="CEP"
+                oninput="formatCEP(this)"
+                maxlength="9"
+              />
+              <p class="form-warn" id="cep-warn">Por favor, informe o CEP.</p>
+              <input
+                type="text"
+                class="form-input"
+                id="address-street"
+                placeholder="Rua / Avenida"
+              />
+              <div class="form-row">
+                <input
+                  type="text"
+                  class="form-input"
+                  id="address-num"
+                  placeholder="Número"
+                />
+                <input
+                  type="text"
+                  class="form-input"
+                  id="address-comp"
+                  placeholder="Complemento"
+                />
+              </div>
+              <input
+                type="text"
+                class="form-input"
+                id="address-bairro"
+                placeholder="Bairro"
+              />
+              <div class="form-row">
+                <input
+                  type="text"
+                  class="form-input"
+                  id="address-city"
+                  placeholder="Cidade"
+                />
+                <input
+                  type="text"
+                  class="form-input"
+                  id="address-state"
+                  placeholder="UF"
+                  maxlength="2"
+                />
+              </div>
+              <p class="form-warn" id="address-warn">
+                Preencha o endereço completo.
+              </p>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <div class="form-section-title">Pagamento</div>
+            <div class="pay-opts">
+              <div
+                class="pay-opt selected"
+                id="btn-pix"
+                onclick="selectPayment('pix')"
+              >
+                Pix
+              </div>
+              <div
+                class="pay-opt"
+                id="btn-cartao"
+                onclick="selectPayment('cartao')"
+              >
+                Cartão
+              </div>
+              <div
+                class="pay-opt"
+                id="btn-deposito"
+                onclick="selectPayment('deposito')"
+              >
+                Depósito
+              </div>
+            </div>
+          </div>
+
+          <button class="checkout-btn" id="checkout-btn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"
+              />
+              <path
+                d="M11.99 0C5.389 0 .014 5.375.014 11.976c0 2.094.54 4.099 1.572 5.878L.002 24l6.296-1.566A11.927 11.927 0 0 0 11.99 24c6.601 0 11.976-5.375 11.976-11.976S18.591 0 11.99 0z"
+              />
+            </svg>
+            Finalizar pelo WhatsApp
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ MODAL: HISTÓRICO ══ -->
+    <div class="modal-overlay" id="history-modal">
+      <div class="modal-sheet">
+        <div class="modal-header">
+          <h2 class="modal-title">Meus Pedidos</h2>
+          <button class="modal-close" id="history-modal-close">
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+            >
+              <line x1="18" y1="6" x2="6" y2="18" />
+              <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+          </button>
+        </div>
+        <div class="history-body">
+          <div id="history-list"></div>
+          <button class="history-clear-btn" onclick="clearHistory()">
+            Limpar Histórico
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+      /* ════════════════════════════════════════════════════════════
+         CATÁLOGO DE PRODUTOS — Trama Terra
+         Associação manual: produto ↔ imagens por agrupamento visual.
+         
+         Lógica de distribuição das 19 imagens entre os 7 produtos:
+         - img1–img3:  Escultura Império (madeira + pedras, verticais escuras)
+         - img4–img6:  Escultura Elos (ágata, tons mais claros, textura circular)
+         - img7–img9:  Escultura Têxtil (sementes, textura fibrosa)
+         - img10–img12: Cúpula Clareza Mental (pedras azuladas/brancas/selenita)
+         - img13–img15: Cúpula Calma (tons verdes/jade/ágata)
+         - img16–img17: Cocar Floresta G (grande, plumagem densa)
+         - img18–img19: Cocar Capim Dourado (capim dourado, tonalidade ouro)
+         
+         Nota: caso as imagens reais não correspondam exatamente a esta
+         distribuição, basta reatribuir os arrays abaixo. A lógica de
+         renderização continuará funcionando automaticamente.
+      ════════════════════════════════════════════════════════════ */
+      const CATALOG = [
+        // ── ESCULTURAS DE PAREDE ────────────────────────────────
+        {
+          id: "p1",
+          cat: "esculturas",
+          catLabel: "Escultura de Parede",
+          name: "Escultura de Parede Império em Manta e Pedras",
+          desc: "Em manta e pedras e madeira nobre. 36×118 cm. Peça monumental em terracota com nó escultural, pedras naturais e franjas em seda — presença que transforma qualquer parede.",
+          price: 1890,
+          priceStr: "R$ 1.890,00",
+          images: [
+            "assets/img/img14.jpeg",
+            "assets/img/img15.jpeg",
+            "assets/img/img16.jpeg",
+            "assets/img/Escultura de parede imp#U00e9rio em manta e pedras e madeira nobre, tamanho 36x118com.jpeg",
+          ],
+        },
+        {
+          id: "p2",
+          cat: "esculturas",
+          catLabel: "Escultura de Parede",
+          name: "Escultura de Parede Elos em Seda Primitiva e Ágata",
+          desc: "Em seda primitiva e pedra natural Ágata. Elos encadeados em fio bruto com pedra ágata natural ao centro — equilíbrio entre força e delicadeza.",
+          price: 1650,
+          priceStr: "R$ 1.650,00",
+          images: [
+            "assets/img/img7.jpeg",
+            "assets/img/img9.jpeg",
+            "assets/img/img13.jpeg",
+            "assets/img/Escultura de parede elos em seda primitiva e pedra natural agata..jpeg",
+          ],
+        },
+        {
+          id: "p3",
+          cat: "esculturas",
+          catLabel: "Escultura de Parede",
+          name: "Escultura de Parede Têxtil em Madeira Nobre e Sementes",
+          desc: "Em madeira nobre e sementes naturais. 45×118 cm. Ondas sinuosas de fibra natural intercaladas com sementes e contas de madeira — movimento orgânico em grande formato.",
+          price: 1750,
+          priceStr: "R$ 1.750,00",
+          images: [
+            "assets/img/img6.jpeg",
+            "assets/img/img8.jpeg",
+            "assets/img/Escultura de parede textil, em madeira nobre e sementes naturais medidas 45x118cm.jpeg",
+          ],
+        },
+        {
+          id: "p8",
+          cat: "esculturas",
+          catLabel: "Escultura de Parede",
+          name: "Escultura de Parede Elo Terracota em Crochê e Ágata",
+          desc: "Elo escultural em crochê terracota com pedra ágata natural. Peça de mesa ou parede com apelo contemporâneo — textura rica e pedra de acabamento refinado.",
+          price: 890,
+          priceStr: "R$ 890,00",
+          images: [
+            "assets/img/Escultura ELO TERRACOTA em croche e pedra agata 189.jpeg",
+          ],
+        },
+        // ── ESCULTURAS CÚPULA ───────────────────────────────────
+        {
+          id: "p4",
+          cat: "cupulas",
+          catLabel: "Escultura Cúpula",
+          name: "Escultura Cúpula Clareza Mental",
+          desc: "Pedra natural sodalita, quartzo branco leitoso, selenita banhada e seda pura. 22×12×15 cm. Composição suspensa em caixa acrílica — pedras que evocam silêncio e clareza interior.",
+          price: 819,
+          priceStr: "R$ 819,00",
+          images: [
+            "assets/img/Escultura LEVEZA 819,00.jpeg",
+            "assets/img/Escultura LEVEZA 819,00(1).jpeg",
+            "assets/img/Escultura LEVEZA 819,00(2).jpeg",
+            "assets/img/Escultura LEVEZA 819,00(3).jpeg",
+            "assets/img/scultura  cupula clareza mental pedra natural sodalita e quartzo branco leitoso, selenita banhada e seda pura  medida 22x12x15.jpeg",
+            "assets/img/img2.jpeg",
+            "assets/img/img3.jpeg",
+          ],
+        },
+        {
+          id: "p5",
+          cat: "cupulas",
+          catLabel: "Escultura Cúpula",
+          name: "Escultura Cúpula Calma",
+          desc: "Jadeíta, quartzo banhado e ágata com banho. 12×12×15 cm. Pedras de tons terrosos e verdes suspensos em fio dourado dentro de caixa acrílica — presença mineral contemplativa.",
+          price: 1118,
+          priceStr: "R$ 1.118,00",
+          images: [
+            "assets/img/Escultura de mesa jadeita 1.118,00.jpeg",
+            "assets/img/img1.jpeg",
+            "assets/img/img4.jpeg",
+            "assets/img/img5.jpeg",
+          ],
+        },
+        // ── COCARES TÊXTEIS ─────────────────────────────────────
+        {
+          id: "p6",
+          cat: "cocares",
+          catLabel: "Cocar Têxtil",
+          name: "Cocar Têxtil Floresta G",
+          desc: "Produzido artesanalmente com palha natural, fios têxteis, sementes e madeira nobre. Tamanho G com imponência e riqueza de detalhes — peça de decoração ou ritual de impacto único.",
+          price: 1490,
+          priceStr: "R$ 1.490,00",
+          images: [
+            "assets/img/Cocar textil floresta G.jpeg",
+            "assets/img/Cocar textil floresta G(1).jpeg",
+            "assets/img/Cocar textil floresta G(2).jpeg",
+          ],
+        },
+        {
+          id: "p7",
+          cat: "cocares",
+          catLabel: "Cocar Têxtil",
+          name: "Cocar Têxtil Capim Dourado",
+          desc: "Confeccionado com fio natural enrolado em madeira nobre e sementes do cerrado. Leveza, textura e sofisticação — a riqueza natural do Brasil em um objeto de decoração autoral.",
+          price: 875,
+          priceStr: "R$ 875,00",
+          images: [
+            "assets/img/Colar com madeira e semente 875,00.jpeg",
+            "assets/img/Colar com madeira e semente 875,00(1).jpeg",
+            "assets/img/img10.jpeg",
+            "assets/img/img11.jpeg",
+            "assets/img/img12.jpeg",
+          ],
+        },
+      ];
+
+      // ── Estado modal produto ────────────────────────────────
+      let currentProduct = null;
+      let currentImgIdx = 0;
+      let pmQty = 1;
+
+      // ── Intersection observer (fade-up) ─────────────────────
+      // IMPORTANTE: deve ser criado ANTES de renderGrid, pois renderGrid
+      // chama intersectObs.observe() ao criar os cards de produto.
+      const intersectObs = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) entry.target.classList.add("visible");
+          });
+        },
+        { threshold: 0.08 },
+      );
+      document
+        .querySelectorAll(".fade-up")
+        .forEach((el) => intersectObs.observe(el));
+
+      // ── Renderizar grade ────────────────────────────────────
+      function renderGrid(cat) {
+        const grid = document.getElementById("products-grid");
+        const items = CATALOG.filter((p) => p.cat === cat);
+        grid.innerHTML = "";
+        items.forEach((p, i) => {
+          const card = document.createElement("article");
+          card.className = "product-card fade-up";
+          card.style.animationDelay = i * 80 + "ms";
+          card.innerHTML = `
+            <div class="product-img-wrap" onclick="openProductModal('${p.id}')">
+              <img class="product-img" src="${p.images[0]}" alt="${p.name}" loading="lazy"/>
+              <div class="product-overlay"><span>Ver Peça</span></div>
+            </div>
+            <div class="product-info">
+              <div class="product-cat-label">${p.catLabel}</div>
+              <h3 class="product-name">${p.name}</h3>
+              <div class="product-price-tag">${p.priceStr}</div>
+              <button class="product-cta" onclick="openProductModal('${p.id}')">Solicitar</button>
+            </div>
+          `;
+          grid.appendChild(card);
+          intersectObs.observe(card);
+        });
+      }
+
+      // ── Abrir modal produto ─────────────────────────────────
+      function openProductModal(id) {
+        const p = CATALOG.find((x) => x.id === id);
+        if (!p) return;
+        currentProduct = p;
+        currentImgIdx = 0;
+        pmQty = 1;
+        document.getElementById("pm-qty").textContent = "1";
+        document.getElementById("pm-category").textContent = p.catLabel;
+        document.getElementById("pm-name").textContent = p.name;
+        document.getElementById("pm-desc").textContent = p.desc;
+        document.getElementById("pm-price").textContent = p.priceStr;
+        document.getElementById("pm-obs").value = "";
+        const mainImg = document.getElementById("pm-main-img");
+        mainImg.style.opacity = "1";
+        mainImg.src = p.images[0];
+        mainImg.alt = p.name;
+        // Atualiza contador
+        const counter = document.getElementById("pm-img-counter");
+        if (counter) {
+          counter.textContent = `1 / ${p.images.length}`;
+          counter.style.display = p.images.length > 1 ? "" : "none";
+        }
+        // Setas só aparecem se tiver mais de 1 imagem
+        const showArrows = p.images.length > 1;
+        document.getElementById("pm-prev").style.display = showArrows
+          ? ""
+          : "none";
+        document.getElementById("pm-next").style.display = showArrows
+          ? ""
+          : "none";
+        // Thumbnails
+        const thumbsEl = document.getElementById("pm-thumbs");
+        thumbsEl.innerHTML = "";
+        p.images.forEach((src, i) => {
+          const btn = document.createElement("button");
+          btn.className = "pm-thumb" + (i === 0 ? " active" : "");
+          btn.innerHTML = `<img src="${src}" alt="${p.name} ${i + 1}" loading="lazy"/>`;
+          btn.onclick = () => setImg(i);
+          thumbsEl.appendChild(btn);
+        });
+        thumbsEl.style.display = p.images.length > 1 ? "flex" : "none";
+        document.getElementById("product-modal").classList.add("active");
+        document.body.style.overflow = "hidden";
+      }
+
+      function setImg(idx) {
+        if (!currentProduct) return;
+        currentImgIdx =
+          (idx + currentProduct.images.length) % currentProduct.images.length;
+        const mainImg = document.getElementById("pm-main-img");
+        mainImg.style.opacity = "0";
+        setTimeout(() => {
+          mainImg.src = currentProduct.images[currentImgIdx];
+          mainImg.style.opacity = "1";
+          const counter = document.getElementById("pm-img-counter");
+          if (counter)
+            counter.textContent = `${currentImgIdx + 1} / ${currentProduct.images.length}`;
+        }, 120);
+        document
+          .querySelectorAll(".pm-thumb")
+          .forEach((t, i) => t.classList.toggle("active", i === currentImgIdx));
+      }
+
+      document
+        .getElementById("pm-prev")
+        .addEventListener("click", () => setImg(currentImgIdx - 1));
+      document
+        .getElementById("pm-next")
+        .addEventListener("click", () => setImg(currentImgIdx + 1));
+
+      // Swipe na imagem principal
+      let touchStartX = 0;
+      const mainWrap = document.getElementById("pm-main-wrap");
+      mainWrap.addEventListener(
+        "touchstart",
+        (e) => {
+          touchStartX = e.touches[0].clientX;
+        },
+        { passive: true },
+      );
+      mainWrap.addEventListener(
+        "touchend",
+        (e) => {
+          const dx = e.changedTouches[0].clientX - touchStartX;
+          if (Math.abs(dx) < 40) return;
+          setImg(dx < 0 ? currentImgIdx + 1 : currentImgIdx - 1);
+        },
+        { passive: true },
+      );
+
+      // Qty no modal produto
+      document.getElementById("pm-dec").onclick = () => {
+        if (pmQty > 1) pmQty--;
+        document.getElementById("pm-qty").textContent = pmQty;
+      };
+      document.getElementById("pm-inc").onclick = () => {
+        pmQty++;
+        document.getElementById("pm-qty").textContent = pmQty;
+      };
+
+      // Adicionar ao carrinho via modal produto
+      document.getElementById("pm-add-btn").onclick = () => {
+        if (!currentProduct) return;
+        const obs = document.getElementById("pm-obs").value.trim();
+        for (let i = 0; i < pmQty; i++) {
+          addToCart({
+            name: currentProduct.name,
+            price: currentProduct.price,
+            priceStr: currentProduct.priceStr,
+            obs: i === 0 ? obs : "",
+            colors: [],
+          });
+        }
+        document.getElementById("product-modal").classList.remove("active");
+        document.body.style.overflow = "";
+        const fab = document.getElementById("cart-btn");
+        fab.classList.add("bounce");
+        fab.addEventListener(
+          "animationend",
+          () => fab.classList.remove("bounce"),
+          { once: true },
+        );
+      };
+
+      // Fechar modal produto
+      document.getElementById("product-modal-close").onclick = () => {
+        document.getElementById("product-modal").classList.remove("active");
+        document.body.style.overflow = "";
+      };
+      document
+        .getElementById("product-modal")
+        .addEventListener("click", (e) => {
+          if (e.target.id === "product-modal") {
+            document.getElementById("product-modal").classList.remove("active");
+            document.body.style.overflow = "";
+          }
+        });
+
+      // ── Category tabs ───────────────────────────────────────
+      document.querySelectorAll(".cat-tab").forEach((tab) => {
+        tab.onclick = function () {
+          document
+            .querySelectorAll(".cat-tab")
+            .forEach((t) => t.classList.remove("active"));
+          this.classList.add("active");
+          renderGrid(this.dataset.cat);
+        };
+      });
+      renderGrid("esculturas");
+
+      // ── Sticky tabs ─────────────────────────────────────────
+      const catTabsEl = document.getElementById("cat-tabs");
+      const colecaoEl = document.getElementById("colecao");
+      window.addEventListener(
+        "scroll",
+        () => {
+          catTabsEl.classList.toggle(
+            "sticky",
+            colecaoEl.getBoundingClientRect().top <= 0,
+          );
+        },
+        { passive: true },
+      );
+
+      // ── Smooth anchors ──────────────────────────────────────
+      document.querySelectorAll("a[href^='#']").forEach((a) => {
+        a.addEventListener("click", (e) => {
+          const el = document.getElementById(a.getAttribute("href").slice(1));
+          if (el) {
+            e.preventDefault();
+            el.scrollIntoView({ behavior: "smooth" });
+          }
+        });
+      });
+
+      // ── Frete ───────────────────────────────────────────────
+      function formatCEPFrete(input) {
+        let v = input.value.replace(/\D/g, "").slice(0, 8);
+        if (v.length > 5) v = v.slice(0, 5) + "-" + v.slice(5);
+        input.value = v;
+      }
+      async function calcularFrete() {
+        const cepInputEl = document.getElementById("frete-cep-input");
+        const resultEl = document.getElementById("frete-result");
+        const cep = cepInputEl.value.replace(/\D/g, "");
+        if (cep.length !== 8) {
+          resultEl.style.display = "block";
+          resultEl.innerHTML = `<div class="frete-msg frete-error">Informe um CEP válido (8 dígitos).</div>`;
+          return;
+        }
+        resultEl.style.display = "block";
+        resultEl.innerHTML = `<div class="frete-msg">Consultando...</div>`;
+        try {
+          const res = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+          const data = await res.json();
+          if (data.erro) {
+            resultEl.innerHTML = `<div class="frete-msg frete-error">CEP não encontrado. Verifique e tente novamente.</div>`;
+            return;
+          }
+
+          // Detecta se é Palmas/TO (normaliza acentos para comparação segura)
+          const localidadeNorm = (data.localidade || "")
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "")
+            .toLowerCase()
+            .trim();
+          const isPalmas = localidadeNorm === "palmas" && data.uf === "TO";
+
+          // Controla visibilidade do botão Motoboy na seção de entrega
+          const motoboyBtn = document.getElementById("ship-motoboy");
+          if (motoboyBtn) {
+            if (isPalmas) {
+              motoboyBtn.style.display = "";
+            } else {
+              motoboyBtn.style.display = "none";
+              // Se o usuário tinha motoboy selecionado, troca para correios
+              if (shippingType === "motoboy") {
+                selectShipping("correios");
+              }
+            }
+          }
+
+          const frete = calcularValorFrete(data.uf, isPalmas);
+          resultEl.innerHTML = `
+            <div class="frete-location">📍 ${data.localidade} / ${data.uf}</div>
+            ${frete.map((op) => `
+              <div class="frete-opt">
+                <div>
+                  <div class="frete-opt-name">${op.nome}</div>
+                  <div class="frete-opt-prazo">${op.prazo}</div>
+                </div>
+                <div class="frete-opt-price">${op.preco}</div>
+              </div>`).join("")}
+            <p class="frete-note">* Estimativa. Valor final confirmado via WhatsApp.</p>
+          `;
+        } catch {
+          resultEl.innerHTML = `<div class="frete-msg frete-error">Erro de conexão. Tente novamente.</div>`;
+        }
+      }
+
+      function calcularValorFrete(uf, isPalmas) {
+        const regiao = {
+          GO: "co", DF: "co", MT: "co", MS: "co", TO: "co",
+          SP: "se", RJ: "se", MG: "se", ES: "se",
+          RS: "s",  SC: "s",  PR: "s",
+          BA: "ne", CE: "ne", PE: "ne", MA: "ne", PI: "ne",
+          RN: "ne", PB: "ne", SE: "ne", AL: "ne",
+          PA: "no", AM: "no", RO: "no", AC: "no", RR: "no", AP: "no",
+        };
+        const tabela = {
+          co: { pac: "R$ 18", sedex: "R$ 32", pacP: "5–8 dias úteis",   sedexP: "2–3 dias úteis" },
+          se: { pac: "R$ 22", sedex: "R$ 38", pacP: "7–10 dias úteis",  sedexP: "3–4 dias úteis" },
+          s:  { pac: "R$ 22", sedex: "R$ 40", pacP: "7–10 dias úteis",  sedexP: "3–5 dias úteis" },
+          ne: { pac: "R$ 25", sedex: "R$ 45", pacP: "8–12 dias úteis",  sedexP: "4–6 dias úteis" },
+          no: { pac: "R$ 28", sedex: "R$ 52", pacP: "10–15 dias úteis", sedexP: "5–7 dias úteis" },
+        };
+        const r = tabela[regiao[uf] || "se"];
+        const opcoes = [
+          { nome: "PAC – Correios",   prazo: r.pacP,   preco: r.pac   },
+          { nome: "SEDEX – Correios", prazo: r.sedexP, preco: r.sedex },
+        ];
+        if (isPalmas) {
+          opcoes.push({
+            nome: "🛵 Motoboy Local (Palmas/TO)",
+            prazo: "Mesmo dia ou agendado",
+            preco: "R$ 10",
+          });
+        }
+        return opcoes;
+      }
+    </script>
+  </body>
+</html>

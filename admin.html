@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin – Trama Terra</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" crossorigin="anonymous" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700&family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="admin.css" />
+  </head>
+  <body>
+
+    <!-- ═══════════════ TELA DE LOGIN ═══════════════ -->
+    <div id="login-screen">
+      <div class="login-card">
+        <div class="login-logo">🧶</div>
+        <h1 class="login-title">Trama Terra</h1>
+        <p class="login-sub">Painel Administrativo</p>
+        <div class="login-form">
+          <input type="password" id="login-password" class="login-input" placeholder="Senha de acesso" />
+          <p class="login-error" id="login-error">Senha incorreta. Tente novamente.</p>
+          <button class="login-btn" onclick="doLogin()">
+            <i class="fas fa-lock-open"></i> Entrar
+          </button>
+        </div>
+        <p class="login-hint">Senha padrão: <strong>trama2025</strong></p>
+      </div>
+    </div>
+
+    <!-- ═══════════════ PAINEL ADMIN ═══════════════ -->
+    <div id="admin-panel" style="display:none">
+
+      <!-- SIDEBAR -->
+      <aside class="sidebar" id="sidebar">
+        <div class="sidebar-logo">
+          <span class="sidebar-icon">🧶</span>
+          <div>
+            <div class="sidebar-brand">Trama Terra</div>
+            <div class="sidebar-role">Painel Admin</div>
+          </div>
+        </div>
+
+        <nav class="sidebar-nav">
+          <button class="nav-item active" data-page="dashboard" onclick="showPage('dashboard', this)">
+            <i class="fas fa-chart-pie"></i> Dashboard
+          </button>
+          <button class="nav-item" data-page="orders" onclick="showPage('orders', this)">
+            <i class="fas fa-receipt"></i> Pedidos
+            <span class="nav-badge" id="nav-new-badge">0</span>
+          </button>
+          <button class="nav-item" data-page="history" onclick="showPage('history', this)">
+            <i class="fas fa-history"></i> Histórico
+          </button>
+        </nav>
+
+        <div class="sidebar-footer">
+          <a href="index.html" target="_blank" class="sidebar-store-link">
+            <i class="fas fa-store"></i> Ver Loja
+          </a>
+          <button class="sidebar-logout" onclick="doLogout()">
+            <i class="fas fa-sign-out-alt"></i> Sair
+          </button>
+        </div>
+      </aside>
+
+      <!-- CONTEÚDO PRINCIPAL -->
+      <div class="main-content">
+
+        <!-- TOPBAR -->
+        <div class="topbar">
+          <button class="topbar-menu" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+          <div class="topbar-title" id="topbar-title">Dashboard</div>
+          <div class="topbar-actions">
+            <button class="topbar-btn" onclick="refreshData()" title="Atualizar">
+              <i class="fas fa-sync-alt"></i>
+            </button>
+            <button class="topbar-btn danger" onclick="confirmClearAll()" title="Limpar todos os dados">
+              <i class="fas fa-trash"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- ── PAGE: DASHBOARD ── -->
+        <div class="page active" id="page-dashboard">
+          <div class="page-header">
+            <h2 class="page-title">Visão Geral</h2>
+            <p class="page-sub" id="dash-date"></p>
+          </div>
+
+          <!-- KPI CARDS -->
+          <div class="kpi-grid">
+            <div class="kpi-card">
+              <div class="kpi-icon" style="background:linear-gradient(135deg,#8b5e3c,#c4956a)">
+                <i class="fas fa-receipt"></i>
+              </div>
+              <div class="kpi-info">
+                <div class="kpi-value" id="kpi-total">0</div>
+                <div class="kpi-label">Total de Pedidos</div>
+              </div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-icon" style="background:linear-gradient(135deg,#4e6043,#7a8c6e)">
+                <i class="fas fa-dollar-sign"></i>
+              </div>
+              <div class="kpi-info">
+                <div class="kpi-value" id="kpi-revenue">R$ 0</div>
+                <div class="kpi-label">Receita Total</div>
+              </div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-icon" style="background:linear-gradient(135deg,#c87941,#e0a020)">
+                <i class="fas fa-star"></i>
+              </div>
+              <div class="kpi-info">
+                <div class="kpi-value" id="kpi-ticket">R$ 0</div>
+                <div class="kpi-label">Ticket Médio</div>
+              </div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-icon" style="background:linear-gradient(135deg,#e63946,#c0392b)">
+                <i class="fas fa-bell"></i>
+              </div>
+              <div class="kpi-info">
+                <div class="kpi-value" id="kpi-new">0</div>
+                <div class="kpi-label">Pedidos Novos</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- RESUMO POR STATUS -->
+          <div class="section-card">
+            <div class="section-card-header">
+              <h3><i class="fas fa-tasks"></i> Status dos Pedidos</h3>
+            </div>
+            <div class="status-bars" id="status-bars"></div>
+          </div>
+
+          <!-- TOP PRODUTOS -->
+          <div class="section-card">
+            <div class="section-card-header">
+              <h3><i class="fas fa-trophy"></i> Produtos Mais Pedidos</h3>
+            </div>
+            <div id="top-products"></div>
+          </div>
+        </div>
+
+        <!-- ── PAGE: PEDIDOS ── -->
+        <div class="page" id="page-orders">
+          <div class="page-header">
+            <h2 class="page-title">Pedidos</h2>
+            <div class="orders-toolbar">
+              <div class="search-wrap">
+                <i class="fas fa-search"></i>
+                <input type="text" id="search-input" placeholder="Buscar por nome, telefone..." oninput="filterOrders()" />
+              </div>
+              <select id="status-filter" onchange="filterOrders()">
+                <option value="">Todos os status</option>
+                <option value="novo">🔵 Novo</option>
+                <option value="confirmado">🟡 Confirmado</option>
+                <option value="producao">🟠 Em Produção</option>
+                <option value="enviado">🟣 Enviado</option>
+                <option value="entregue">🟢 Entregue</option>
+                <option value="cancelado">🔴 Cancelado</option>
+              </select>
+            </div>
+          </div>
+          <div id="orders-list" class="orders-list"></div>
+        </div>
+
+        <!-- ── PAGE: HISTÓRICO ── -->
+        <div class="page" id="page-history">
+          <div class="page-header">
+            <h2 class="page-title">Histórico Completo</h2>
+          </div>
+          <div class="section-card">
+            <div class="section-card-header">
+              <h3><i class="fas fa-history"></i> Todos os Pedidos</h3>
+              <button class="btn-danger-sm" onclick="confirmClearAll()">
+                <i class="fas fa-trash"></i> Limpar Tudo
+              </button>
+            </div>
+            <div id="history-table-wrap"></div>
+          </div>
+        </div>
+
+      </div><!-- /main-content -->
+    </div><!-- /admin-panel -->
+
+    <!-- ═══════════════ MODAL – DETALHES DO PEDIDO ═══════════════ -->
+    <div class="modal-overlay" id="order-modal">
+      <div class="order-modal-card">
+        <div class="order-modal-header">
+          <h2 id="order-modal-title">Pedido #</h2>
+          <button class="modal-close-btn" onclick="closeOrderModal()"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="order-modal-body" id="order-modal-body"></div>
+        <div class="order-modal-footer">
+          <div class="status-change">
+            <label>Status:</label>
+            <select id="order-status-select" onchange="updateOrderStatus()">
+              <option value="novo">🔵 Novo</option>
+              <option value="confirmado">🟡 Confirmado</option>
+              <option value="producao">🟠 Em Produção</option>
+              <option value="enviado">🟣 Enviado</option>
+              <option value="entregue">🟢 Entregue</option>
+              <option value="cancelado">🔴 Cancelado</option>
+            </select>
+          </div>
+          <div class="order-modal-actions">
+            <button class="btn-whatsapp" id="order-whatsapp-btn">
+              <i class="fab fa-whatsapp"></i> Abrir WhatsApp
+            </button>
+            <button class="btn-delete" onclick="deleteCurrentOrder()">
+              <i class="fas fa-trash"></i> Excluir
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="admin.js"></script>
+  </body>
+</html>
