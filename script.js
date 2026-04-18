@@ -4,7 +4,7 @@
    ══════════════════════════════════════════════════════════════ */
 
 // ─── CONFIG ──────────────────────────────────────────────────────
-const WHATSAPP_NUMBER = "63992863557";
+const WHATSAPP_NUMBER = "63992938479";
 const STORE_NAME = "Trama Terra";
 const HISTORY_KEY = "trama_terra_orders";
 
