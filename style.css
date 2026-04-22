@@ -1389,6 +1389,12 @@ a {
   font-size: 1rem;
   color: var(--terra);
 }
+.frete-opt-detalhe {
+  font-size: 0.62rem;
+  color: var(--text-light);
+  margin-top: 0.15rem;
+  opacity: 0.85;
+}
 .frete-note {
   font-size: 0.6rem;
   color: var(--text-light);
