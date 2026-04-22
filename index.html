@@ -232,28 +232,6 @@
           </div>
 
           <div class="form-section">
-            <div class="form-section-title">Calcular Frete</div>
-            <div class="frete-row">
-              <input
-                type="text"
-                class="form-input"
-                id="frete-cep-input"
-                placeholder="CEP (77000-000)"
-                oninput="formatCEPFrete(this)"
-                maxlength="9"
-              />
-              <button class="btn-calc-frete" onclick="calcularFrete()">
-                Calcular
-              </button>
-            </div>
-            <div
-              id="frete-result"
-              class="frete-result"
-              style="display: none"
-            ></div>
-          </div>
-
-          <div class="form-section">
             <div class="form-section-title">Seus Dados</div>
             <input
               type="text"
@@ -297,7 +275,6 @@
                 class="ship-opt"
                 id="ship-motoboy"
                 onclick="selectShipping('motoboy')"
-                style="display:none"
               >
                 🛵 Motoboy
               </div>
@@ -884,164 +861,6 @@
         });
       });
 
-      // ── Frete ───────────────────────────────────────────────
-      function formatCEPFrete(input) {
-        let v = input.value.replace(/\D/g, "").slice(0, 8);
-        if (v.length > 5) v = v.slice(0, 5) + "-" + v.slice(5);
-        input.value = v;
-      }
-      async function calcularFrete() {
-        const cepInputEl = document.getElementById("frete-cep-input");
-        const resultEl = document.getElementById("frete-result");
-        const cep = cepInputEl.value.replace(/\D/g, "");
-        if (cep.length !== 8) {
-          resultEl.style.display = "block";
-          resultEl.innerHTML = `<div class="frete-msg frete-error">Informe um CEP válido (8 dígitos).</div>`;
-          return;
-        }
-        resultEl.style.display = "block";
-        resultEl.innerHTML = `<div class="frete-msg">Consultando...</div>`;
-        try {
-          const res = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
-          const data = await res.json();
-          if (data.erro) {
-            resultEl.innerHTML = `<div class="frete-msg frete-error">CEP não encontrado. Verifique e tente novamente.</div>`;
-            return;
-          }
-
-          // Detecta se é Palmas/TO (normaliza acentos para comparação segura)
-          const localidadeNorm = (data.localidade || "")
-            .normalize("NFD")
-            .replace(/[\u0300-\u036f]/g, "")
-            .toLowerCase()
-            .trim();
-          const isPalmas = localidadeNorm === "palmas" && data.uf === "TO";
-
-          // Controla visibilidade do botão Motoboy na seção de entrega
-          const motoboyBtn = document.getElementById("ship-motoboy");
-          if (motoboyBtn) {
-            if (isPalmas) {
-              motoboyBtn.style.display = "";
-            } else {
-              motoboyBtn.style.display = "none";
-              // Se o usuário tinha motoboy selecionado, troca para correios
-              if (shippingType === "motoboy") {
-                selectShipping("correios");
-              }
-            }
-          }
-
-          const frete = calcularValorFrete(data.uf, isPalmas);
-          resultEl.innerHTML = `
-            <div class="frete-location">📍 ${data.localidade} / ${data.uf}</div>
-            ${frete.map((op) => `
-              <div class="frete-opt">
-                <div>
-                  <div class="frete-opt-name">${op.nome}</div>
-                  <div class="frete-opt-prazo">${op.prazo}</div>
-                  ${op.detalhe ? `<div class="frete-opt-detalhe">${op.detalhe}</div>` : ""}
-                </div>
-                <div class="frete-opt-price">${op.preco}</div>
-              </div>`).join("")}
-            <p class="frete-note">* Estimativa baseada no peso cubado dos itens no carrinho. Valor final confirmado via WhatsApp.</p>
-          `;
-        } catch {
-          resultEl.innerHTML = `<div class="frete-msg frete-error">Erro de conexão. Tente novamente.</div>`;
-        }
-      }
-
-      // ── CÁLCULO DE PESO CUBADO ─────────────────────────────────
-      // Fórmula Correios: (C × L × A) / 6000 = peso cubado (kg)
-      // Cobrado: o maior entre peso real e peso cubado
-      function calcularPesoCobrado(pkg, qty) {
-        const pesoCubado = (pkg.c * pkg.l * pkg.a) / 6000;
-        const pesoFinal = Math.max(pkg.pesoReal, pesoCubado);
-        return pesoFinal * qty;
-      }
-
-      // Calcula o peso total do carrinho para fins de frete
-      function calcularPesoTotalCarrinho() {
-        let pesoTotal = 0;
-        let temPacotePesado = false;
-        cart.forEach((item) => {
-          // Usa pkg do item diretamente, ou busca no CATALOG como fallback
-          const pkg = item.pkg || (CATALOG.find((p) => p.name === item.name) || {}).pkg;
-          if (pkg) {
-            const peso = calcularPesoCobrado(pkg, item.quantity);
-            pesoTotal += peso;
-            if (pkg.a > 100 || pkg.c > 80) temPacotePesado = true;
-          } else {
-            pesoTotal += 1.5 * item.quantity;
-          }
-        });
-        return { pesoTotal: Math.max(pesoTotal, 0.3), temPacotePesado };
-      }
-
-      function calcularValorFrete(uf, isPalmas) {
-        const regiao = {
-          GO: "co", DF: "co", MT: "co", MS: "co", TO: "co",
-          SP: "se", RJ: "se", MG: "se", ES: "se",
-          RS: "s",  SC: "s",  PR: "s",
-          BA: "ne", CE: "ne", PE: "ne", MA: "ne", PI: "ne",
-          RN: "ne", PB: "ne", SE: "ne", AL: "ne",
-          PA: "no", AM: "no", RO: "no", AC: "no", RR: "no", AP: "no",
-        };
-
-        // Tabela de preço por kg (R$/kg) — valores base Correios 2025 estimados
-        // Formato: { pac: [baseR$, R$/kg_adicional], sedex: [baseR$, R$/kg_adicional] }
-        const tabelaKg = {
-          co: { pac: [18, 3.5],  sedex: [32, 6.0],  pacP: "5–8 dias úteis",   sedexP: "2–3 dias úteis" },
-          se: { pac: [22, 4.0],  sedex: [38, 7.0],  pacP: "7–10 dias úteis",  sedexP: "3–4 dias úteis" },
-          s:  { pac: [22, 4.2],  sedex: [40, 7.5],  pacP: "7–10 dias úteis",  sedexP: "3–5 dias úteis" },
-          ne: { pac: [25, 5.0],  sedex: [45, 8.5],  pacP: "8–12 dias úteis",  sedexP: "4–6 dias úteis" },
-          no: { pac: [28, 6.0],  sedex: [52, 10.0], pacP: "10–15 dias úteis", sedexP: "5–7 dias úteis" },
-        };
-
-        const reg = regiao[uf] || "se";
-        const t = tabelaKg[reg];
-        const { pesoTotal, temPacotePesado } = calcularPesoTotalCarrinho();
-
-        // Peso acima de 1kg gera adicional proporcional
-        function calcPreco(base, porKg) {
-          const adicional = Math.max(0, pesoTotal - 1) * porKg;
-          // Acréscimo de manuseio para objetos muito volumosos (embalagens acima de 100cm)
-          const manuseio = temPacotePesado ? 15 : 0;
-          return Math.ceil(base + adicional + manuseio);
-        }
-
-        const pacVal   = calcPreco(t.pac[0],   t.pac[1]);
-        const sedexVal = calcPreco(t.sedex[0], t.sedex[1]);
-
-        const pesoLabel = pesoTotal.toFixed(1).replace(".", ",") + " kg";
-        const notaPeso = temPacotePesado
-          ? `<span style="font-size:0.75rem;color:#b45309;">📦 Inclui taxa de objeto volumoso</span>`
-          : "";
-
-        const opcoes = [
-          {
-            nome: "PAC – Correios",
-            prazo: t.pacP,
-            preco: `R$ ${pacVal},00`,
-            detalhe: `Peso cobrado: ${pesoLabel} ${notaPeso}`,
-          },
-          {
-            nome: "SEDEX – Correios",
-            prazo: t.sedexP,
-            preco: `R$ ${sedexVal},00`,
-            detalhe: `Peso cobrado: ${pesoLabel} ${notaPeso}`,
-          },
-        ];
-
-        if (isPalmas) {
-          opcoes.push({
-            nome: "🛵 Motoboy Local (Palmas/TO)",
-            prazo: "Mesmo dia ou agendado",
-            preco: "R$ 10,00",
-            detalhe: "",
-          });
-        }
-        return opcoes;
-      }
     </script>
   </body>
 </html>

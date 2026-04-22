@@ -1,6 +1,6 @@
 /* ══════════════════════════════════════════════════════════════
    TRAMA TERRA – Design Mineral Autoral
-   script.js – Carrinho, checkout, histórico, frete
+   script.js – Carrinho, checkout, histórico
    ══════════════════════════════════════════════════════════════ */
 
 // ─── CONFIG ──────────────────────────────────────────────────────
