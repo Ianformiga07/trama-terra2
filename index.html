@@ -106,17 +106,64 @@
     <!-- ─── COLEÇÃO ─── -->
     <section class="collection" id="colecao">
       <div class="collection-inner">
-        <div class="section-label">Coleção</div>
-        <nav class="cat-tabs" id="cat-tabs">
-          <button class="cat-tab active" data-cat="esculturas">
-            Esculturas de Parede
+        <!-- Wrapper do sistema de navegação por categoria -->
+        <div class="cat-nav-wrapper">
+
+          <!-- Cabeçalho (label + info) -->
+          <div class="cat-header">
+            <div class="cat-label-text">Coleção</div>
+          </div>
+
+          <!-- ══ MOBILE: Botão dropdown ══
+               Visível apenas em telas < 640px.
+               Mostra a categoria atual + total de peças.
+               Ao tocar, expande um painel com todas as categorias,
+               cada uma com contagem de itens e check de seleção. -->
+          <button
+            class="cat-dropdown-btn"
+            id="cat-dropdown-btn"
+            aria-haspopup="listbox"
+            aria-expanded="false"
+            aria-label="Selecionar categoria"
+          >
+            <span class="cat-dropdown-current" id="cat-dropdown-current">Esculturas de Parede</span>
+            <span class="cat-dropdown-meta" id="cat-dropdown-meta">3 peças</span>
+            <svg class="cat-dropdown-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
           </button>
-          <button class="cat-tab" data-cat="cupulas">Esculturas Cúpula</button>
-          <button class="cat-tab" data-cat="cocares">Cocares Têxteis</button>
-          <button class="cat-tab" data-cat="colarmesa">Colar de Mesa</button>
-          <button class="cat-tab" data-cat="pecadiversa">Peças Diversas</button>
-        </nav>
-        <div class="products-grid" id="products-grid"></div>
+
+          <!-- Painel de categorias (dropdown) -->
+          <div
+            class="cat-dropdown-panel"
+            id="cat-dropdown-panel"
+            role="listbox"
+            aria-label="Categorias"
+          >
+            <!-- Itens injetados pelo JS -->
+          </div>
+
+          <!-- ══ TABLET/DESKTOP: Abas horizontais ══
+               Com wrapper que adiciona fade lateral para indicar
+               que há mais conteúdo scrollável. -->
+          <div class="cat-tabs-wrapper">
+            <nav class="cat-tabs" id="cat-tabs" role="tablist" aria-label="Categorias de produto">
+              <button class="cat-tab active" data-cat="esculturas" role="tab" aria-selected="true">
+                Esculturas de Parede
+              </button>
+              <button class="cat-tab" data-cat="cupulas" role="tab" aria-selected="false">Esculturas Cúpula</button>
+              <button class="cat-tab" data-cat="cocares" role="tab" aria-selected="false">Cocares Têxteis</button>
+              <button class="cat-tab" data-cat="colarmesa" role="tab" aria-selected="false">Colar de Mesa</button>
+              <button class="cat-tab" data-cat="pecadiversa" role="tab" aria-selected="false">Peças Diversas</button>
+            </nav>
+          </div>
+        </div>
+
+        <!-- Contador de produtos (feedback visual após trocar de aba) -->
+        <div class="cat-product-count" id="cat-product-count" aria-live="polite"></div>
+
+        <!-- Grade de produtos -->
+        <div class="products-grid" id="products-grid" role="list"></div>
       </div>
     </section>
 
@@ -138,7 +185,7 @@
     </footer>
 
     <!-- ─── CART FAB ─── -->
-    <button class="cart-fab" id="cart-btn">
+    <button class="cart-fab" id="cart-btn" aria-label="Abrir carrinho">
       <svg
         width="20"
         height="20"
@@ -146,19 +193,23 @@
         fill="none"
         stroke="currentColor"
         stroke-width="1.5"
+        aria-hidden="true"
       >
         <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
         <line x1="3" y1="6" x2="21" y2="6" />
         <path d="M16 10a4 4 0 0 1-8 0" />
       </svg>
       <span>Carrinho</span>
-      <span class="cart-badge" id="cart-count">0</span>
+      <span class="cart-badge" id="cart-count" aria-label="itens no carrinho">0</span>
     </button>
 
+    <!-- ─── TOAST ─── -->
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
     <!-- ══ MODAL: PRODUTO ══ -->
-    <div class="modal-overlay" id="product-modal">
+    <div class="modal-overlay" id="product-modal" role="dialog" aria-modal="true" aria-label="Detalhes do produto">
       <div class="modal-sheet product-sheet">
-        <button class="modal-close" id="product-modal-close">
+        <button class="modal-close" id="product-modal-close" aria-label="Fechar">
           <svg
             width="18"
             height="18"
@@ -166,6 +217,7 @@
             fill="none"
             stroke="currentColor"
             stroke-width="1.5"
+            aria-hidden="true"
           >
             <line x1="18" y1="6" x2="6" y2="18" />
             <line x1="6" y1="6" x2="18" y2="18" />
@@ -174,9 +226,16 @@
         <div class="pm-gallery">
           <div class="pm-main-wrap" id="pm-main-wrap">
             <img class="pm-main-img" id="pm-main-img" src="" alt="" />
-            <button class="pm-arrow pm-arrow-left" id="pm-prev">‹</button>
-            <button class="pm-arrow pm-arrow-right" id="pm-next">›</button>
-            <div class="pm-img-counter" id="pm-img-counter">1 / 1</div>
+            <button class="pm-arrow pm-arrow-left" id="pm-prev" aria-label="Imagem anterior">‹</button>
+            <button class="pm-arrow pm-arrow-right" id="pm-next" aria-label="Próxima imagem">›</button>
+            <div class="pm-img-counter" id="pm-img-counter" aria-live="polite">1 / 1</div>
+            <!-- Dica de swipe — aparece ao abrir galeria com múltiplas imagens -->
+            <div class="pm-swipe-hint" id="pm-swipe-hint" aria-hidden="true">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+              Deslize para ver mais
+            </div>
           </div>
           <div class="pm-thumbs" id="pm-thumbs"></div>
         </div>
@@ -186,14 +245,15 @@
           <p class="pm-desc" id="pm-desc"></p>
           <div class="pm-price" id="pm-price"></div>
           <div class="pm-qty-row">
-            <button class="qty-btn" id="pm-dec">−</button>
-            <span class="qty-num" id="pm-qty">1</span>
-            <button class="qty-btn" id="pm-inc">+</button>
+            <button class="qty-btn" id="pm-dec" aria-label="Diminuir quantidade">−</button>
+            <span class="qty-num" id="pm-qty" aria-label="Quantidade">1</span>
+            <button class="qty-btn" id="pm-inc" aria-label="Aumentar quantidade">+</button>
           </div>
           <textarea
             class="pm-obs"
             id="pm-obs"
             placeholder="Observações: preferências, medidas, urgência..."
+            aria-label="Observações do pedido"
           ></textarea>
           <button class="pm-add-btn" id="pm-add-btn">
             Adicionar ao Carrinho
@@ -203,14 +263,14 @@
     </div>
 
     <!-- ══ MODAL: CARRINHO ══ -->
-    <div class="modal-overlay" id="cart-modal">
+    <div class="modal-overlay" id="cart-modal" role="dialog" aria-modal="true" aria-label="Carrinho de compras">
       <div class="modal-sheet">
         <div class="modal-header">
           <h2 class="modal-title">
             Carrinho
             <span class="modal-count" id="cart-count-modal">0 itens</span>
           </h2>
-          <button class="modal-close" id="close-modal-btn">
+          <button class="modal-close" id="close-modal-btn" aria-label="Fechar carrinho">
             <svg
               width="18"
               height="18"
@@ -218,6 +278,7 @@
               fill="none"
               stroke="currentColor"
               stroke-width="1.5"
+              aria-hidden="true"
             >
               <line x1="18" y1="6" x2="6" y2="18" />
               <line x1="6" y1="6" x2="18" y2="18" />
@@ -238,6 +299,7 @@
               class="form-input"
               id="customer-name"
               placeholder="Nome completo"
+              autocomplete="name"
             />
             <p class="form-warn" id="customer-name-warn">
               Por favor, informe seu nome.
@@ -248,12 +310,16 @@
                 class="form-input"
                 id="customer-phone"
                 placeholder="WhatsApp / Celular"
+                autocomplete="tel"
+                inputmode="tel"
               />
               <input
                 type="email"
                 class="form-input"
                 id="customer-email"
                 placeholder="E-mail (opcional)"
+                autocomplete="email"
+                inputmode="email"
               />
             </div>
             <p class="form-warn" id="customer-phone-warn">
@@ -268,6 +334,9 @@
                 class="ship-opt selected"
                 id="ship-correios"
                 onclick="selectShipping('correios')"
+                role="radio"
+                aria-checked="true"
+                tabindex="0"
               >
                 📦 Correios
               </div>
@@ -275,6 +344,9 @@
                 class="ship-opt"
                 id="ship-motoboy"
                 onclick="selectShipping('motoboy')"
+                role="radio"
+                aria-checked="false"
+                tabindex="0"
               >
                 🛵 Motoboy
               </div>
@@ -282,6 +354,9 @@
                 class="ship-opt"
                 id="ship-retirada"
                 onclick="selectShipping('retirada')"
+                role="radio"
+                aria-checked="false"
+                tabindex="0"
               >
                 🏡 Retirada
               </div>
@@ -294,6 +369,8 @@
                 placeholder="CEP"
                 oninput="formatCEP(this)"
                 maxlength="9"
+                inputmode="numeric"
+                autocomplete="postal-code"
               />
               <p class="form-warn" id="cep-warn">Por favor, informe o CEP.</p>
               <input
@@ -301,6 +378,7 @@
                 class="form-input"
                 id="address-street"
                 placeholder="Rua / Avenida"
+                autocomplete="street-address"
               />
               <div class="form-row">
                 <input
@@ -308,6 +386,7 @@
                   class="form-input"
                   id="address-num"
                   placeholder="Número"
+                  inputmode="numeric"
                 />
                 <input
                   type="text"
@@ -328,6 +407,7 @@
                   class="form-input"
                   id="address-city"
                   placeholder="Cidade"
+                  autocomplete="address-level2"
                 />
                 <input
                   type="text"
@@ -335,6 +415,8 @@
                   id="address-state"
                   placeholder="UF"
                   maxlength="2"
+                  autocomplete="address-level1"
+                  style="text-transform: uppercase;"
                 />
               </div>
               <p class="form-warn" id="address-warn">
@@ -350,6 +432,9 @@
                 class="pay-opt selected"
                 id="btn-pix"
                 onclick="selectPayment('pix')"
+                role="radio"
+                aria-checked="true"
+                tabindex="0"
               >
                 Pix
               </div>
@@ -357,6 +442,9 @@
                 class="pay-opt"
                 id="btn-cartao"
                 onclick="selectPayment('cartao')"
+                role="radio"
+                aria-checked="false"
+                tabindex="0"
               >
                 Cartão
               </div>
@@ -364,6 +452,9 @@
                 class="pay-opt"
                 id="btn-deposito"
                 onclick="selectPayment('deposito')"
+                role="radio"
+                aria-checked="false"
+                tabindex="0"
               >
                 Depósito
               </div>
@@ -371,7 +462,7 @@
           </div>
 
           <button class="checkout-btn" id="checkout-btn">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
               <path
                 d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"
               />
@@ -386,11 +477,11 @@
     </div>
 
     <!-- ══ MODAL: HISTÓRICO ══ -->
-    <div class="modal-overlay" id="history-modal">
+    <div class="modal-overlay" id="history-modal" role="dialog" aria-modal="true" aria-label="Histórico de pedidos">
       <div class="modal-sheet">
         <div class="modal-header">
           <h2 class="modal-title">Meus Pedidos</h2>
-          <button class="modal-close" id="history-modal-close">
+          <button class="modal-close" id="history-modal-close" aria-label="Fechar">
             <svg
               width="18"
               height="18"
@@ -398,6 +489,7 @@
               fill="none"
               stroke="currentColor"
               stroke-width="1.5"
+              aria-hidden="true"
             >
               <line x1="18" y1="6" x2="6" y2="18" />
               <line x1="6" y1="6" x2="18" y2="18" />
@@ -417,38 +509,22 @@
     <script>
       /* ════════════════════════════════════════════════════════════
          CATÁLOGO DE PRODUTOS — Trama Terra
-         Associação manual: produto ↔ imagens por agrupamento visual.
-         
-         Lógica de distribuição das 19 imagens entre os 7 produtos:
-         - img1–img3:  Escultura Império (madeira + pedras, verticais escuras)
-         - img4–img6:  Escultura Elos (ágata, tons mais claros, textura circular)
-         - img7–img9:  Escultura Têxtil (sementes, textura fibrosa)
-         - img10–img12: Cúpula Clareza Mental (pedras azuladas/brancas/selenita)
-         - img13–img15: Cúpula Calma (tons verdes/jade/ágata)
-         - img16–img17: Cocar Floresta G (grande, plumagem densa)
-         - img18–img19: Cocar Capim Dourado (capim dourado, tonalidade ouro)
-         
-         Nota: caso as imagens reais não correspondam exatamente a esta
-         distribuição, basta reatribuir os arrays abaixo. A lógica de
-         renderização continuará funcionando automaticamente.
-      ════════════════════════════════════════════════════════════ */
+         ════════════════════════════════════════════════════════════ */
       const CATALOG = [
         // ── ESCULTURAS DE PAREDE ────────────────────────────────
         {
           id: "p1",
           cat: "esculturas",
           catLabel: "Escultura de Parede",
-          name: "Escultura de Parede Império em Manta e Contas de madeira - (Peça Única)",
-          desc: "Em manta e contas de madeira nobre. 36×118 cm. Peça monumental em terracota com nó escultural, pedras naturais e franjas em seda — presença que transforma qualquer parede.",
+          name: "Escultura de Parede Império em Manta, Pedras e Madeira Nobre",
+          desc: "Em manta e pedras e madeira nobre. 36×118 cm. Composição vertical de grande impacto, com fios de manta natural e pedras brutas — presença que transforma qualquer parede.",
           price: 1890,
           priceStr: "R$ 1.890,00",
-          // Dimensões da embalagem (cm) e peso real (kg)
           pkg: { c: 45, l: 20, a: 125, pesoReal: 2.5 },
           images: [
             "assets/img/img14.jpeg",
             "assets/img/img15.jpeg",
             "assets/img/img16.jpeg",
-            
           ],
         },
         {
@@ -479,11 +555,10 @@
           images: [
             "assets/img/img6.jpeg",
             "assets/img/img8.jpeg",
-            
           ],
         },
 
-        // ── ESCULTURAS CÚPULA ───────────────────────────────────
+        // ── ESCULTURAS CÚPULA ────────────────────────────────────
         {
           id: "p4",
           cat: "cupulas",
@@ -528,7 +603,8 @@
             "assets/img/img4.jpeg",
           ],
         },
-        // ── COCARES TÊXTEIS ─────────────────────────────────────
+
+        // ── COCARES TÊXTEIS ──────────────────────────────────────
         {
           id: "p6",
           cat: "cocares",
@@ -576,19 +652,19 @@
           id: "p14",
           cat: "cocares",
           catLabel: "Cocar Têxtil",
-          name: "Mini Cocar essência nativa",
-          desc: "Emoldurado em estrutura de madeira,  sofisticado, transformando-se em um objeto de arte pronto para valorizar qualquer ambiente. Peça única — sem repetição, sem padrão industrial.",
+          name: "Mini Cocar Essência Nativa",
+          desc: "Emoldurado em estrutura de madeira, sofisticado, transformando-se em um objeto de arte pronto para valorizar qualquer ambiente. Peça única — sem repetição, sem padrão industrial.",
           price: 480,
           priceStr: "R$ 480,00",
           pkg: { c: 40, l: 20, a: 50, pesoReal: 0.6 },
           images: [
             "assets/img/img28.jpeg",
-            "assets/img/img27.jpeg",  
+            "assets/img/img27.jpeg",
             "assets/img/img26.jpeg",
           ],
         },
 
-        // ── COLAR DE MESA aaaaaaa─────────────────────────────────────
+        // ── COLAR DE MESA ────────────────────────────────────────
         {
           id: "p9",
           cat: "colarmesa",
@@ -608,8 +684,8 @@
           id: "p10",
           cat: "colarmesa",
           catLabel: "Colar de Mesa",
-          name: "Colar de Mesa jadeita",
-          desc: "Manta decorativa, bastão  de selenita com banho de ouro nas bordas, pedras jadeita e pedras rolada com banho total.",
+          name: "Colar de Mesa Jadeita",
+          desc: "Manta decorativa, bastão de selenita com banho de ouro nas bordas, pedras jadeita e pedras rolada com banho total.",
           price: 1118,
           priceStr: "R$ 1.118,00",
           pkg: { c: 35, l: 20, a: 15, pesoReal: 1.2 },
@@ -619,7 +695,7 @@
           ],
         },
 
-        // ── PEÇAS DIVERSAS ─────────────────────────────────────
+        // ── PEÇAS DIVERSAS ───────────────────────────────────────
         {
           id: "p13",
           cat: "pecadiversa",
@@ -634,18 +710,30 @@
             "assets/img/img24.jpeg",
           ],
         },
-
-
       ];
 
-      // ── Estado modal produto ────────────────────────────────
+      /* ════════════════════════════════════════════════════════════
+         CONFIGURAÇÃO DE CATEGORIAS — com labels e contagens
+         ════════════════════════════════════════════════════════════ */
+      const CATEGORIES = [
+        { id: "esculturas", label: "Esculturas de Parede" },
+        { id: "cupulas",    label: "Esculturas Cúpula" },
+        { id: "cocares",    label: "Cocares Têxteis" },
+        { id: "colarmesa",  label: "Colar de Mesa" },
+        { id: "pecadiversa",label: "Peças Diversas" },
+      ];
+
+      /* ════════════════════════════════════════════════════════════
+         ESTADO
+         ════════════════════════════════════════════════════════════ */
       let currentProduct = null;
       let currentImgIdx = 0;
       let pmQty = 1;
+      let currentCat = "esculturas";
 
-      // ── Intersection observer (fade-up) ─────────────────────
-      // IMPORTANTE: deve ser criado ANTES de renderGrid, pois renderGrid
-      // chama intersectObs.observe() ao criar os cards de produto.
+      /* ════════════════════════════════════════════════════════════
+         INTERSECTION OBSERVER (fade-up)
+         ════════════════════════════════════════════════════════════ */
       const intersectObs = new IntersectionObserver(
         (entries) => {
           entries.forEach((entry) => {
@@ -658,19 +746,46 @@
         .querySelectorAll(".fade-up")
         .forEach((el) => intersectObs.observe(el));
 
-      // ── Renderizar grade ────────────────────────────────────
+      /* ════════════════════════════════════════════════════════════
+         TOAST NOTIFICATION
+         ════════════════════════════════════════════════════════════ */
+      function showToast(msg, duration = 2200) {
+        const toast = document.getElementById("toast");
+        toast.textContent = msg;
+        toast.classList.add("show");
+        clearTimeout(toast._timer);
+        toast._timer = setTimeout(() => toast.classList.remove("show"), duration);
+      }
+
+      /* ════════════════════════════════════════════════════════════
+         CONTADOR DE PRODUTOS
+         ════════════════════════════════════════════════════════════ */
+      function updateProductCount(cat) {
+        const count = CATALOG.filter((p) => p.cat === cat).length;
+        const catLabel = CATEGORIES.find(c => c.id === cat)?.label || "";
+        const el = document.getElementById("cat-product-count");
+        if (el) {
+          el.textContent = `${count} ${count === 1 ? "peça" : "peças"} em ${catLabel}`;
+        }
+      }
+
+      /* ════════════════════════════════════════════════════════════
+         RENDERIZAR GRADE DE PRODUTOS
+         ════════════════════════════════════════════════════════════ */
       function renderGrid(cat) {
+        currentCat = cat;
         const grid = document.getElementById("products-grid");
         const items = CATALOG.filter((p) => p.cat === cat);
         grid.innerHTML = "";
         items.forEach((p, i) => {
           const card = document.createElement("article");
           card.className = "product-card fade-up";
+          card.setAttribute("role", "listitem");
           card.style.animationDelay = i * 80 + "ms";
           card.innerHTML = `
-            <div class="product-img-wrap" onclick="openProductModal('${p.id}')">
+            <div class="product-img-wrap" onclick="openProductModal('${p.id}')" role="button" tabindex="0" aria-label="Ver ${p.name}">
               <img class="product-img" src="${p.images[0]}" alt="${p.name}" loading="lazy"/>
-              <div class="product-overlay"><span>Ver Peça</span></div>
+              <div class="product-overlay" aria-hidden="true"><span>Ver Peça</span></div>
             </div>
             <div class="product-info">
               <div class="product-cat-label">${p.catLabel}</div>
@@ -679,12 +794,169 @@
               <button class="product-cta" onclick="openProductModal('${p.id}')">Solicitar</button>
             </div>
           `;
+          // Acessibilidade: abrir modal com teclado no img-wrap
+          const imgWrap = card.querySelector(".product-img-wrap");
+          imgWrap.addEventListener("keydown", (e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              openProductModal(p.id);
+            }
+          });
           grid.appendChild(card);
           intersectObs.observe(card);
         });
+        updateProductCount(cat);
+        updateDropdownUI(cat);
       }
 
-      // ── Abrir modal produto ─────────────────────────────────
+      /* ════════════════════════════════════════════════════════════
+         SISTEMA DE NAVEGAÇÃO — DROPDOWN (MOBILE)
+         ════════════════════════════════════════════════════════════ */
+
+      // Construir itens do dropdown
+      function buildDropdownItems() {
+        const panel = document.getElementById("cat-dropdown-panel");
+        panel.innerHTML = "";
+        CATEGORIES.forEach((cat) => {
+          const count = CATALOG.filter((p) => p.cat === cat.id).length;
+          const item = document.createElement("div");
+          item.className = "cat-dropdown-item" + (cat.id === currentCat ? " active" : "");
+          item.setAttribute("role", "option");
+          item.setAttribute("aria-selected", cat.id === currentCat ? "true" : "false");
+          item.setAttribute("tabindex", "0");
+          item.dataset.cat = cat.id;
+          item.innerHTML = `
+            <span class="cat-dropdown-item-name">${cat.label}</span>
+            <span class="cat-dropdown-item-count">${count} peças</span>
+            <span class="cat-dropdown-checkmark" aria-hidden="true">✓</span>
+          `;
+          item.addEventListener("click", () => selectCategory(cat.id));
+          item.addEventListener("keydown", (e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              selectCategory(cat.id);
+            }
+          });
+          panel.appendChild(item);
+        });
+      }
+
+      // Atualizar UI do dropdown ao mudar categoria
+      function updateDropdownUI(cat) {
+        const catData = CATEGORIES.find(c => c.id === cat);
+        const count = CATALOG.filter((p) => p.cat === cat).length;
+
+        // Atualizar botão
+        const currentEl = document.getElementById("cat-dropdown-current");
+        const metaEl = document.getElementById("cat-dropdown-meta");
+        if (currentEl) currentEl.textContent = catData?.label || cat;
+        if (metaEl) metaEl.textContent = `${count} peças`;
+
+        // Atualizar itens do painel
+        document.querySelectorAll(".cat-dropdown-item").forEach((item) => {
+          const isActive = item.dataset.cat === cat;
+          item.classList.toggle("active", isActive);
+          item.setAttribute("aria-selected", isActive ? "true" : "false");
+        });
+
+        // Atualizar tabs desktop
+        document.querySelectorAll(".cat-tab").forEach((tab) => {
+          const isActive = tab.dataset.cat === cat;
+          tab.classList.toggle("active", isActive);
+          tab.setAttribute("aria-selected", isActive ? "true" : "false");
+        });
+      }
+
+      // Selecionar categoria (funciona para mobile e desktop)
+      function selectCategory(cat) {
+        closeDropdown();
+        renderGrid(cat);
+        // Scroll suave para a grid se não estiver visível
+        const grid = document.getElementById("products-grid");
+        if (grid) {
+          setTimeout(() => {
+            grid.scrollIntoView({ behavior: "smooth", block: "nearest" });
+          }, 100);
+        }
+      }
+
+      // Abrir/fechar dropdown
+      const dropdownBtn = document.getElementById("cat-dropdown-btn");
+      const dropdownPanel = document.getElementById("cat-dropdown-panel");
+
+      function openDropdown() {
+        dropdownBtn.classList.add("open");
+        dropdownPanel.classList.add("open");
+        dropdownBtn.setAttribute("aria-expanded", "true");
+      }
+      function closeDropdown() {
+        dropdownBtn.classList.remove("open");
+        dropdownPanel.classList.remove("open");
+        dropdownBtn.setAttribute("aria-expanded", "false");
+      }
+      function toggleDropdown() {
+        if (dropdownPanel.classList.contains("open")) {
+          closeDropdown();
+        } else {
+          openDropdown();
+        }
+      }
+
+      dropdownBtn.addEventListener("click", toggleDropdown);
+
+      // Fechar dropdown ao clicar fora
+      document.addEventListener("click", (e) => {
+        if (!e.target.closest(".cat-nav-wrapper")) {
+          closeDropdown();
+        }
+      });
+
+      // Fechar dropdown com Escape
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") closeDropdown();
+      });
+
+      /* ════════════════════════════════════════════════════════════
+         TABS DESKTOP — evento de clique
+         ════════════════════════════════════════════════════════════ */
+      document.querySelectorAll(".cat-tab").forEach((tab) => {
+        tab.addEventListener("click", function () {
+          selectCategory(this.dataset.cat);
+        });
+      });
+
+      /* ════════════════════════════════════════════════════════════
+         FADE LATERAL DAS TABS (indicador de scroll)
+         ════════════════════════════════════════════════════════════ */
+      const catTabsEl = document.getElementById("cat-tabs");
+      const tabsWrapper = catTabsEl?.closest(".cat-tabs-wrapper");
+      if (catTabsEl && tabsWrapper) {
+        catTabsEl.addEventListener("scroll", () => {
+          const atEnd = catTabsEl.scrollLeft + catTabsEl.clientWidth >= catTabsEl.scrollWidth - 4;
+          tabsWrapper.classList.toggle("scrolled-end", atEnd);
+        }, { passive: true });
+      }
+
+      /* ════════════════════════════════════════════════════════════
+         STICKY TABS (desktop)
+         ════════════════════════════════════════════════════════════ */
+      const colecaoEl = document.getElementById("colecao");
+      window.addEventListener(
+        "scroll",
+        () => {
+          if (catTabsEl) {
+            catTabsEl.classList.toggle(
+              "sticky",
+              colecaoEl.getBoundingClientRect().top <= 0,
+            );
+          }
+        },
+        { passive: true },
+      );
+
+      /* ════════════════════════════════════════════════════════════
+         MODAL DE PRODUTO
+         ════════════════════════════════════════════════════════════ */
       function openProductModal(id) {
         const p = CATALOG.find((x) => x.id === id);
         if (!p) return;
@@ -697,37 +969,54 @@
         document.getElementById("pm-desc").textContent = p.desc;
         document.getElementById("pm-price").textContent = p.priceStr;
         document.getElementById("pm-obs").value = "";
+
         const mainImg = document.getElementById("pm-main-img");
         mainImg.style.opacity = "1";
         mainImg.src = p.images[0];
         mainImg.alt = p.name;
-        // Atualiza contador
+
+        // Contador de imagens
         const counter = document.getElementById("pm-img-counter");
         if (counter) {
           counter.textContent = `1 / ${p.images.length}`;
           counter.style.display = p.images.length > 1 ? "" : "none";
         }
-        // Setas só aparecem se tiver mais de 1 imagem
+
+        // Setas: sempre visíveis no mobile se houver mais de 1 imagem
         const showArrows = p.images.length > 1;
-        document.getElementById("pm-prev").style.display = showArrows
-          ? ""
-          : "none";
-        document.getElementById("pm-next").style.display = showArrows
-          ? ""
-          : "none";
+        document.getElementById("pm-prev").style.display = showArrows ? "" : "none";
+        document.getElementById("pm-next").style.display = showArrows ? "" : "none";
+
+        // Dica de swipe — aparece se há mais de 1 imagem
+        const swipeHint = document.getElementById("pm-swipe-hint");
+        if (swipeHint) {
+          swipeHint.style.display = showArrows ? "" : "none";
+          // Reset da animação
+          swipeHint.style.animation = "none";
+          swipeHint.offsetHeight; // reflow
+          swipeHint.style.animation = "";
+        }
+
         // Thumbnails
         const thumbsEl = document.getElementById("pm-thumbs");
         thumbsEl.innerHTML = "";
         p.images.forEach((src, i) => {
           const btn = document.createElement("button");
           btn.className = "pm-thumb" + (i === 0 ? " active" : "");
+          btn.setAttribute("aria-label", `Ver imagem ${i + 1}`);
           btn.innerHTML = `<img src="${src}" alt="${p.name} ${i + 1}" loading="lazy"/>`;
           btn.onclick = () => setImg(i);
           thumbsEl.appendChild(btn);
         });
         thumbsEl.style.display = p.images.length > 1 ? "flex" : "none";
+
         document.getElementById("product-modal").classList.add("active");
         document.body.style.overflow = "hidden";
+
+        // Foco no botão de fechar para acessibilidade
+        setTimeout(() => {
+          document.getElementById("product-modal-close").focus();
+        }, 100);
       }
 
       function setImg(idx) {
@@ -757,11 +1046,13 @@
 
       // Swipe na imagem principal
       let touchStartX = 0;
+      let touchStartY = 0;
       const mainWrap = document.getElementById("pm-main-wrap");
       mainWrap.addEventListener(
         "touchstart",
         (e) => {
           touchStartX = e.touches[0].clientX;
+          touchStartY = e.touches[0].clientY;
         },
         { passive: true },
       );
@@ -769,7 +1060,9 @@
         "touchend",
         (e) => {
           const dx = e.changedTouches[0].clientX - touchStartX;
-          if (Math.abs(dx) < 40) return;
+          const dy = e.changedTouches[0].clientY - touchStartY;
+          // Só muda imagem se o swipe for predominantemente horizontal
+          if (Math.abs(dx) < 40 || Math.abs(dy) > Math.abs(dx)) return;
           setImg(dx < 0 ? currentImgIdx + 1 : currentImgIdx - 1);
         },
         { passive: true },
@@ -789,25 +1082,39 @@
       document.getElementById("pm-add-btn").onclick = () => {
         if (!currentProduct) return;
         const obs = document.getElementById("pm-obs").value.trim();
-        for (let i = 0; i < pmQty; i++) {
-          addToCart({
-            name: currentProduct.name,
-            price: currentProduct.price,
-            priceStr: currentProduct.priceStr,
-            obs: i === 0 ? obs : "",
-            colors: [],
-            pkg: currentProduct.pkg || null,
-          });
-        }
-        document.getElementById("product-modal").classList.remove("active");
-        document.body.style.overflow = "";
-        const fab = document.getElementById("cart-btn");
-        fab.classList.add("bounce");
-        fab.addEventListener(
-          "animationend",
-          () => fab.classList.remove("bounce"),
-          { once: true },
-        );
+        const btn = document.getElementById("pm-add-btn");
+
+        // Feedback visual no botão
+        btn.classList.add("loading");
+        btn.textContent = "Adicionando...";
+
+        setTimeout(() => {
+          for (let i = 0; i < pmQty; i++) {
+            addToCart({
+              name: currentProduct.name,
+              price: currentProduct.price,
+              priceStr: currentProduct.priceStr,
+              obs: i === 0 ? obs : "",
+              colors: [],
+              pkg: currentProduct.pkg || null,
+            });
+          }
+
+          document.getElementById("product-modal").classList.remove("active");
+          document.body.style.overflow = "";
+
+          btn.classList.remove("loading");
+          btn.textContent = "Adicionar ao Carrinho";
+
+          // Animação no FAB
+          const fab = document.getElementById("cart-btn");
+          fab.classList.add("bounce");
+          fab.addEventListener("animationend", () => fab.classList.remove("bounce"), { once: true });
+
+          // Toast de confirmação
+          const qtyText = pmQty > 1 ? `${pmQty}×` : "";
+          showToast(`${qtyText} ${currentProduct.name.split(" ").slice(0, 3).join(" ")} adicionado ✓`);
+        }, 300);
       };
 
       // Fechar modal produto
@@ -815,42 +1122,16 @@
         document.getElementById("product-modal").classList.remove("active");
         document.body.style.overflow = "";
       };
-      document
-        .getElementById("product-modal")
-        .addEventListener("click", (e) => {
-          if (e.target.id === "product-modal") {
-            document.getElementById("product-modal").classList.remove("active");
-            document.body.style.overflow = "";
-          }
-        });
-
-      // ── Category tabs ───────────────────────────────────────
-      document.querySelectorAll(".cat-tab").forEach((tab) => {
-        tab.onclick = function () {
-          document
-            .querySelectorAll(".cat-tab")
-            .forEach((t) => t.classList.remove("active"));
-          this.classList.add("active");
-          renderGrid(this.dataset.cat);
-        };
+      document.getElementById("product-modal").addEventListener("click", (e) => {
+        if (e.target.id === "product-modal") {
+          document.getElementById("product-modal").classList.remove("active");
+          document.body.style.overflow = "";
+        }
       });
-      renderGrid("esculturas");
 
-      // ── Sticky tabs ─────────────────────────────────────────
-      const catTabsEl = document.getElementById("cat-tabs");
-      const colecaoEl = document.getElementById("colecao");
-      window.addEventListener(
-        "scroll",
-        () => {
-          catTabsEl.classList.toggle(
-            "sticky",
-            colecaoEl.getBoundingClientRect().top <= 0,
-          );
-        },
-        { passive: true },
-      );
-
-      // ── Smooth anchors ──────────────────────────────────────
+      /* ════════════════════════════════════════════════════════════
+         SMOOTH ANCHORS
+         ════════════════════════════════════════════════════════════ */
       document.querySelectorAll("a[href^='#']").forEach((a) => {
         a.addEventListener("click", (e) => {
           const el = document.getElementById(a.getAttribute("href").slice(1));
@@ -860,6 +1141,12 @@
           }
         });
       });
+
+      /* ════════════════════════════════════════════════════════════
+         INICIALIZAÇÃO
+         ════════════════════════════════════════════════════════════ */
+      buildDropdownItems();
+      renderGrid("esculturas");
 
     </script>
   </body>
